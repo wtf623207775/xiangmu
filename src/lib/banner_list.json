@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "name": "手机 电话卡",
+        "list":[
+            {
+                "list_id":101,
+                "list_name": "小米10 pro",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d622e8a81f81caa0f619ee750cf64501.png?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "电视 盒子",
+        "list":[
+            {
+                "list_id":201,
+                "list_name": "小米电视5 55英寸",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/23316088a9182a08c624958319924d8d.png?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "笔记本 显示器 平板",
+        "list":[
+            {
+                "list_id":301,
+                "list_name": "RedmiBook13",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/aee86bcd8bf491eb78ae234d2e188a66.jpg?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "家电 插线板",
+        "list":[
+            {
+                "list_id":401,
+                "list_name": "冰箱",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/abeb200aaaee68d4635c6235d3ffb3f3.jpg?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "出行 穿戴",
+        "list":[
+            {
+                "list_id":501,
+                "list_name": "小米手表",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3cc76c2ce836255c1b2e3e1cf477cfef.png?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "智能 路由器",
+        "list":[
+            {
+                "list_id":601,
+                "list_name": "打印机",
+                "list_url":"https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/5ef6c2d63df78e140afab6ac3c088fac.jpg?thumb=1&w=50&h=50"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "电源 配件",
+        "list":[
+            {
+                "list_id":701,
+                "list_name": "移动电源",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8c55361386a46857f962e5142baeefcf.png?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "健康 儿童",
+        "list":[
+            {
+                "list_id":801,
+                "list_name": "洗手机",
+                "list_url":"https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/da43c3dd6b171ee267f1fd1ec01b9208.jpg?thumb=1&w=50&h=50"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "耳机 音箱",
+        "list":[
+            {
+                "list_id":901,
+                "list_name": "音箱Pro",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/360215a1e32317abb912d48c3e80dd20.png?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "生活 箱包",
+        "list":[
+            {
+                "list_id":1001,
+                "list_name": "小背包",
+                "list_url":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9f26030d7d914b86daca51233a3ac5f9.jpg?thumb=1&w=50&h=50&f=webp&q=90"
+            }
+        ]
+    }
+]

@@ -1,1 +1,1 @@
-"use strict";
+"use strict";for(var lis=document.querySelectorAll(".tab-list-li"),uls=document.querySelectorAll(".jd-ul"),_loop=function(e){lis[e].onmouseenter=function(){for(var l=0;l<uls.length;l++)uls[l].style.display="none";uls[e].style.display="block"}},i=0;i<lis.length;i++)_loop(i);

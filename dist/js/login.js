@@ -1,1 +1,1 @@
-"use strict";
+"use strict";var form=document.querySelector("form"),nameIpt=document.querySelector(".username"),passIpt=document.querySelector(".password");function clickHandler(e){(e=e||window.event).preventDefault();var t=nameIpt.value,a=passIpt.value;t&&a&&$.ajax({url:"/wtf",method:"POST",data:{c:100,d:100},dataType:"json",success:function(e){console.log(e)}})}form.addEventListener("click",clickHandler);

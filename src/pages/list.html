@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表</title>
+    <link rel="stylesheet" href="../lib/pagination/pagination.css">
+    <link rel="stylesheet" href="../lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="../css/list.css">
+</head>
+
+<body>
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/pagination/pagination.js"></script>
+    <script src="../js/list.js"></script>
+    <!-- 头部列表 -->
+    <div class="site-topbar">
+        <div class="container clear">
+            <ul class="topbar-nav clear">
+                <li>小米商城</li><span class="sep">|</span>
+                <li>MIUI</li><span class="sep">|</span>
+                <li>IoT</li><span class="sep">|</span>
+                <li>云服务</li><span class=" sep">|</span>
+                <li>金融</li><span class="sep">|</span>
+                <li>有品</li><span class="sep">|</span>
+                <li>小爱开放平台</li><span class="sep">|</span>
+                <li>企业团购</li><span class="sep">|</span>
+                <li>资质证照</li><span class="sep">|</span>
+                <li>协议规则</li><span class="sep">|</span>
+                <li>下载app</li>
+            </ul>
+
+            <div class="topbar-cart">
+                <a class="cart-mini"><span class="glyphicon glyphicon-shopping-cartconfont"></span>购物车
+                    <span class="cart-mini-num ">（0）</span>
+                </a>
+            </div>
+            <div class="topbar-info">
+                <a class="link">登录</a><span class="sep">|</span><a class="link">注册</a> <span class="sep">|</span><span
+                    class="message">
+                    <a class="link">消息通知
+                        <i lass="J_miMessageTotal"></i></a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- 头部导航 -->
+    <div class="site-header clear">
+        <div class="header-container clear">
+            <img class="header-pic" src="../images/logo.png" />
+            <div class="header-tit clear">
+                <span class="header-sp">全部商品分类</span>
+            </div>
+            <div class="nav-top">
+                <ul class="nav-tab" id="tab">
+
+                </ul>
+                <div class="nav-search">
+                    <input type="search" class="search-ipt" value="智能家电">
+                    <input type="text" class="search">
+                </div>
+            </div>
+
+
+        </div>
+        <!-- 导航选项 -->
+        <ul class="show-list">
+
+        </ul>
+    </div>
+    <script>
+        getList()
+        function getList() {
+            $.ajax({
+                url: "../lib/nav_top.json",
+                dataType: "json",
+                success: function (res) {
+
+                    let str = ""
+
+                    res.forEach(item => {
+                        str += `<li>${item.name}</li>`
+
+                    })
+
+                    $('.show-list').hide()
+                    // 添加一个移入移出事件
+                    $("#tab").html(str)
+                        .on({
+                            mouseenter: () => $('.show-list').stop().slideDown(),
+                            mouseleave: () => $('.show-list').stop().slideUp()
+                        })
+                        .children('li').on('mouseover', function () {
+                            const index = $(this).index()
+
+                            const list = res[index].list
+
+                            //渲染对应的ul
+                            let str = '';
+                            list.forEach(item => {
+                                str += ` <li>
+                                <img src="${ item.list_url}" alt="">
+                                <p class="title">${ item.list_name}</p>
+                                <span class="price">${ item.list_price}</span>
+                                </li>`
+                            })
+
+                            //填充
+                            $('.show-list').html(str)
+                        })
+
+
+                    //  给 .show-list 添加一个移入移出事件
+                    $('.show-list').on({
+                        mouseover: function () { $(this).finish().show() },
+                        mouseout: function () { $(this).finish().slideUp() }
+                    })
+                }
+            })
+        }
+    </script>
+
+    <!-- 分页分栏 -->
+    <div class="subfield">
+        <div class="sufield-content">
+            首页<span>></span>全部结果<span>></span>智能家庭
+        </div>
+    </div>
+    <!-- 分类 -->
+    <div class="search-filter clear">
+        <span class="sf-span">分类：</span>
+        <ul class="sf-ul">
+            <li style="color: #ff6600;">全部</li>
+            <li>酷玩</li>
+            <li>智能</li>
+            <li>音箱</li>
+        </ul>
+    </div>
+    <!-- 内容区 -->
+    <div class="list-content">
+        <div class="list-nr clear">
+            <ul class="list-ul clear">
+                <li style="color: #ff6600;">综合</li>
+                <li>新品</li>
+                <li>销量</li>
+                <li style="border-right:none ;">
+                    <button class="sort"> 价格</button></li>
+            </ul>
+            <ul class="right-ul clear">
+                <li>收货点</li>
+                <li><input class="rg-ipt" type="text" value="河南郑州市"></li>
+                <li><input type="checkbox" value=""><span>促销</span></li>
+                <li><input type="checkbox" value=""><span>分期</span></li>
+                <li><input type="checkbox" value=""><span>仅看有货</span></li>
+            </ul>
+            <div class="pagi m-style"></div>
+            <ul class="list-show clear">
+
+
+            </ul>
+        </div>
+    </div>
+    <script>
+        /*
+     排序
+       + 升序和降序
+         + 把数组排好在从来一遍
+       + 点击按钮的时候决定是升序还是降序
+         + 有一个默认变量, 来决定是升序还是降序
+         + true > 升序
+         + false => 降序
+   */
+        // 2-1. 准备一个变量
+        var flag = true
+
+        // 2-2. 准备一个变量接收数组
+        var list2 = []
+
+        getGoods()
+        function getGoods() {
+            $.ajax({
+                url: '../lib/detail.json',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+
+
+                    $('.pagi').pagination({
+                        pageCount: Math.ceil(res.length / 12), // 总页数
+                        current: 1, // 当前页
+                        jump: true,
+                        coping: true,
+                        homePage: '首页', // 首页按钮的文本
+                        endPage: '末页', // 末页按钮的文本
+                        prevContent: '上页',
+                        nextContent: '下页',
+                        callback: function (api) { // 当你切换页面的时候会触发
+                            // api.getCurrent() 获取当前是第几页
+                            // console.log(api.getCurrent())
+                            let curr = api.getCurrent()
+
+                            console.log(curr)
+                            // 根据是第几页, 从我的总数组里面筛选出一部分数据
+                            //   slice 方法包前不包后
+                            var list = res.slice((curr - 1) * 12, curr * 12)
+                            console.log(list)
+                            // slice 不改变原始数组, 只是从数组里面拿到一些内容
+                            // splice 方法才是改变原始数组, 从原始数组里面删除
+
+                            // 3-2. 每次使用分页器切换的时候渲染一次
+                            bindHtml(list)
+                        }
+                    });
+                    bindHtml(res.slice(0, 12))
+
+                    list2 = res;
+                }
+            })
+        }
+
+        //渲染页面
+        function bindHtml(list) {
+            //console.log(list)
+            let str = '';
+            list.forEach(item => {
+                str += `
+            <li data-id="${item.id}">
+                <img src="${item.img}" alt="">
+                <span class="goods-name">${item.goods_name}</span>
+                <span class="goods-price">${item.goods_price}</span>                 
+                <img  class="min-pic" src="${item.discount_img}" alt="">
+                  <p>
+                    <button class="search-goods">查看详情</button>
+                    <button class="buy-goods">加入购物车</button>
+                  </p>
+                </li>
+            `
+            })
+            $('.list-show').html(str)
+        };
+
+        // 2. 排序
+        var btn = document.querySelector('.sort')
+        btn.onclick = function () {
+            // 让准备好的变量改变
+            flag = !flag
+
+            // 不管是什么都要把数组重组
+            list2.sort(function (a, b) {
+                if (flag === true) {
+                    return a.goods_price - b.goods_price
+                } else {
+                    return b.goods_price - a.goods_price
+                }
+            })
+
+            
+
+            $('.pagi').pagination({
+                pageCount: Math.ceil(list2.length / 12), // 总页数
+                current: 1, // 当前页
+                jump: true,
+                coping: true,
+                homePage: '首页', // 首页按钮的文本
+                endPage: '末页', // 末页按钮的文本
+                prevContent: '上页',
+                nextContent: '下页',
+                callback: function (api) { // 当你切换页面的时候会触发
+                    let curr = api.getCurrent()
+                    // console.log(curr)
+                    var list = list2.slice((curr - 1) * 12, curr * 12)
+                    // 3-2. 每次使用分页器切换的时候渲染一次
+                    bindHtml(list)
+                }
+            })
+
+            //   3. 先把第一页的数据渲染一次
+            bindHtml(list2.slice(0, 12))
+        };
+
+        //事件委托绑定事件
+        $('.list-show').on('click', 'li', function () {
+            const id = $(this).data('id')  
+            
+            
+            let data = {};
+            for (let i = 0; i < list2.length; i++) {
+               // console.log((list2[i].id)==id)
+                if (list2[i].id ==id) {
+                    
+                    data = list2[i]
+                    break
+                }
+                
+            }
+
+            console.log(data)
+            //   当你到达 detail 页面的时候, 在拿出来就可以了
+            localStorage.setItem('goods_info', JSON.stringify(data))
+
+            // 存储好了以后就跳转页面
+            // window.location.href = './detail.html'
+
+        })
+
+
+    </script>
+</body>
+
+</html>
