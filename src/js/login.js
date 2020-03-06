@@ -18,12 +18,20 @@ function clickHandler(e){
         return
     }
     $.ajax({
-      url: '/wtf',
-      method: 'POST', 
-      data: { c: 100, d: 100 },
+      url:'/wtf',
+      type:'get',
       dataType: 'json',
-      success: function (res) {
-        console.log(res)
+      data:{
+          username:uname,
+          password:upass
+      },
+      success:function(res){
+          if(res.code===0){
+            alert('用户名或密码错误')
+          }else{
+            window.location.href='./index.html'
+          }
+          console.log(res)
       }
-    })
+  })
 }

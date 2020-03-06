@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <title>详情页</title>
     <link rel="stylesheet" href="../css/detail.css">
 </head>
+
 <body>
     <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/jquery/zoomsl.min.js"></script>
     <div class="site-topbar">
         <div class="container clear">
             <ul class="topbar-nav clear">
@@ -26,12 +29,12 @@
             </ul>
 
             <div class="topbar-cart">
-                <a class="cart-mini"><span class="glyphicon glyphicon-shopping-cartconfont"></span>购物车
-                    <span class="cart-mini-num ">（0）</span>
+                <a class="cart-mini" href="./cart.html"><span class="glyphicon glyphicon-shopping-cartconfont"></span>购物车
+                    <span class="cart-mini-num "></span>
                 </a>
             </div>
             <div class="topbar-info">
-                <a class="link">登录</a><span class="sep">|</span><a class="link">注册</a> <span class="sep">|</span><span
+                <a class="link"></a><span class="sep">|</span><a class="link">欢迎回来</a> <span class="sep">|</span><span
                     class="message">
                     <a class="link">消息通知
                         <i lass="J_miMessageTotal"></i></a>
@@ -62,69 +65,143 @@
         <ul class="show-list">
 
         </ul>
-    </div>    
-        <script>
-            getList()
-            function getList() {
-                $.ajax({
-                    url: "../lib/nav_top.json",
-                    dataType: "json",
-                    success: function (res) {
+    </div>
+    <script>
+        getList()
+        function getList() {
+            $.ajax({
+                url: "../lib/nav_top.json",
+                dataType: "json",
+                success: function (res) {
 
-                        let str = ""
+                    let str = ""
 
-                        res.forEach(item => {
-                            str += `<li>${item.name}</li>`
+                    res.forEach(item => {
+                        str += `<li>${item.name}</li>`
 
+                    })
+
+                    $('.show-list').hide()
+                    // 添加一个移入移出事件
+                    $("#tab").html(str)
+                        .on({
+                            mouseenter: () => $('.show-list').stop().slideDown(),
+                            mouseleave: () => $('.show-list').stop().slideUp()
                         })
+                        .children('li').on('mouseover', function () {
+                            const index = $(this).index()
 
-                        $('.show-list').hide()
-                        // 添加一个移入移出事件
-                        $("#tab").html(str)
-                            .on({
-                                mouseenter: () => $('.show-list').stop().slideDown(),
-                                mouseleave: () => $('.show-list').stop().slideUp()
-                            })
-                            .children('li').on('mouseover', function () {
-                                const index = $(this).index()
+                            const list = res[index].list
 
-                                const list = res[index].list
-
-                                //渲染对应的ul
-                                let str = '';
-                                list.forEach(item => {
-                                    str += ` <li>
+                            //渲染对应的ul
+                            let str = '';
+                            list.forEach(item => {
+                                str += ` <li>
                                 <img src="${ item.list_url}" alt="">
                                 <p class="title">${ item.list_name}</p>
                                 <span class="price">${ item.list_price}</span>
                                 </li>`
-                                })
-
-                                //填充
-                                $('.show-list').html(str)
                             })
 
-
-                        //  给 .show-list 添加一个移入移出事件
-                        $('.show-list').on({
-                            mouseover: function () { $(this).finish().show() },
-                            mouseout: function () { $(this).finish().slideUp() }
+                            //填充
+                            $('.show-list').html(str)
                         })
-                    }
-                })
-            }
-        </script>
+
+
+                    //  给 .show-list 添加一个移入移出事件
+                    $('.show-list').on({
+                        mouseover: function () { $(this).finish().show() },
+                        mouseout: function () { $(this).finish().slideUp() }
+                    })
+                }
+            })
+        }
+    </script>
     <div class="wrapper">
         <div class="show clear">
             <div class="show-tv">
-                <img src="../images/index/011dd8493ad62f3793dbb63d9fbd3bc0.jpg" alt="">
-            </div>          
+                <img class="my-foto" src="" alt="">
+                <div class="mask"></div>
+            </div>
             <div class="goods-content clear">
-                <p>手机</p>
+                <p class="goods-name"></p>
+                <p class="details"></p>
+                <p class="made">小米自营</p>
                 <p class="price">价格</p>
                 <button class="buy">加入购物车</button>
             </div>
+            <!-- <div class="bg-pic">
+                <img class="big-img" src="../images/index/011dd8493ad62f3793dbb63d9fbd3bc0.jpg" alt="">
+            </div> -->
         </div>
     </div>
+    <script>
+        jQuery(function(){
+        
+           $(".my-foto").imagezoomsl({
+             
+              zoomrange: [3, 3]
+           });
+        });   
+     </script>
+    <script>
+        // 1. 获取 localStorage 里面的数据
+        const info = JSON.parse(localStorage.getItem('goods_info'));
+        //console.log(info)
+        // 2. 判断数据是否存在
+        if (!info) {
+            alert('您要查看的数据不存在')
+            // 跳转回列表页面
+            window.location.href = './list.html'
+        }
+        // 3. 渲染页面
+        bindHtml()
+        function bindHtml() {
+            $('.show-tv img').attr('src', info.img);
+            $('.goods-name').text(info.goods_name);
+            $('.price').text(info.goods_price+'元');
+            $('.details').text(info.desc)
+        }
+        // 4. 点击添加购物车
+        // 4-1. 添加点击事件
+        $('.buy').click(() => {
+            // 4-2. 判断是否登录
+            // 4-3. 加入到购物车数组里面
+            //    先拿到 localStorage 里面的那个数组信息
+            //    如果原先没有数据, 那么我就用一个空数组来代替
+            const cartList = JSON.parse(localStorage.getItem('cartList')) || []
+            // 4-4. 判断有没有这个数据
+            let exits = cartList.some(item => {
+                return item.id === info.id
+            })
+            //console.log(exits)
+
+            if (exits) {
+                // 找到这个信息给他 number ++
+                let data = null;
+                for (let i = 0; i < cartList.length; i++) {
+                    if (cartList[i].id === info.id) {
+                        data = cartList[i]
+                        break
+                    }
+                }
+                data.number++
+                // 4-5. 数量添加的时候, 小计价格要改变
+        data.xiaoji = data.number * data.goods_price // 数量 * 单价
+            } else {
+                info.number = 1;
+                // 4-5. 多添加一些信息
+                info.xiaoji = info.goods_price // 因为默认是第一个, 小计就是单价
+                info.isSelect = false // 默认不选中
+                //向数组添加数据
+                cartList.push(info)
+            }
+
+            // 在存储到 localStorage 里面
+            localStorage.setItem('cartList', JSON.stringify(cartList))
+            // console.log(cartList)
+        })
+    </script>
 </body>
+
 </html>
