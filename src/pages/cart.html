@@ -273,11 +273,11 @@
                 // console.log(id)
                 
                 cartList.forEach(item=>{
-                //    cartList.indexof(id)
-                    // if(item.id==id){
-                    //     cartList.splice(id,1)
-                    //     console.log(item.id) 
-                    // }
+               
+                    if(item.id==id){
+                        let index = item.id - 1;
+                        cartList.splice(index,1);
+                    }
                 })
                 // 从新渲染页面
                 bindHtml()
