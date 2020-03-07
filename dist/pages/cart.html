@@ -196,13 +196,15 @@
             $('.cart').on('click', '.del', function () {
                 // 拿到自己身上的 id
                 const id = $(this).data('id')
-
-                console.log('把数组中 id 为 : ' + id + ' 的数去去掉, 从新渲染页面, 从新存储到 lcoalStorage');
-                // cartList.forEach(item=>{
-                //     if(item.id==id){
-                //         cartList.splice((id-1),1)
-                //     }
-                // })
+                // console.log(id)
+                
+                cartList.forEach(item=>{
+                //    cartList.indexof(id)
+                    // if(item.id==id){
+                    //     cartList.splice(id,1)
+                    //     console.log(item.id) 
+                    // }
+                })
                 // 从新渲染页面
                 bindHtml()
 
